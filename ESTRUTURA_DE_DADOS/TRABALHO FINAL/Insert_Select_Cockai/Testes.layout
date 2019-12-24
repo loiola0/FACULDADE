@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Layout>
+	<Files>
+		<File Name="Soucers\Funcoes.c" Top="No" Tabpos="1" TopLine="26">
+			<Cursor Line="27" Column="11"/>
+		</File>
+		<File Name="Headers\BibliotecaOrdenacao.h" Top="No" Tabpos="2" TopLine="1">
+			<Cursor Line="26" Column="6"/>
+			<Selection Line="26" Column="10"/>
+		</File>
+		<File Name="Soucers\main.c" Top="Yes" Tabpos="3" TopLine="1">
+			<Cursor Line="7" Column="4"/>
+		</File>
+	</Files>
+	<Folders>
+		<Folder Name="Soucers" Expanded="Yes"/>
+		<Folder Name="Headers" Expanded="Yes"/>
+	</Folders>
+</Layout>
