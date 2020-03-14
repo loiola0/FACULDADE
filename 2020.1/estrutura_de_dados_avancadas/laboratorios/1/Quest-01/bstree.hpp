@@ -5,7 +5,10 @@
 #include <memory>
 // this type is helpful to represent optional value returning
 #include <optional>
+//para manipulação ou retornos de vetores
+#include <vector>
 
+#include <stack>
 // generic types
 template<typename Key, typename Val>
 class BSTree{
@@ -101,6 +104,159 @@ private:
     }
   };
 
+  static void imprimir(const BSTreeNode* x){
+
+    
+
+   if(x==NULL){
+     return;
+   }
+    
+       imprimir(x->left.get());
+  
+
+       std::cout << x->key <<" "<< x->val << std::endl;
+
+
+       imprimir(x->right.get());
+    
+  }
+
+  //inserir os elementos da árvore inOrder em vetor pair<Key,Val>
+   static  std::vector<std::pair<Key, Val> > inOrder(const BSTreeNode *p){
+     // std::vector<std::pair<Key, Val> > vetorInOrder;
+        
+        //vetor auxiliar que guadará os nós a esquerda
+        std::vector<std::pair<Key, Val>> leftVector;
+
+        //vetor auxiliar que guadará os nós a esquerda
+        std::vector<std::pair<Key, Val>> rightVector;
+
+          //verifica se o nó da esquerda está vazio
+        if(p->left){
+           
+         leftVector = inOrder(p->left.get());
+           
+        }
+        //verifica se o nó da direita está vazio
+        if(p->right){
+          
+          rightVector = inOrder(p->right.get());
+      
+        } 
+        
+        //vetor onde se guadará os valores dos vetores da esquerda e direita(vetores nas funções recursivas)
+        std::vector<std::pair<Key, Val>> resultVector{};
+
+        for (auto e : leftVector){//percorre o vetor da esquerda e salva no vetor resultVector
+          resultVector.push_back(e);
+        }
+        
+        //salva o raiz no vetor
+        resultVector.push_back(std::make_pair(p->key, p->val));
+
+        for (auto e : rightVector){//percorre o vetor da direita e salva no vetor resultVector
+          resultVector.push_back(e);
+        }
+
+
+        //retorna o vetor com todos os nós da árvore
+        return resultVector;
+  } 
+
+
+  //inserir os elementos da árvore preOrder em vetor pair<Key,Val>
+   static  std::vector<std::pair<Key, Val> > preOrder(const BSTreeNode *p){
+     // std::vector<std::pair<Key, Val> > vetorInOrder;
+        
+        //vetor auxiliar que guadará os nós a esquerda
+        std::vector<std::pair<Key, Val>> leftVector;
+
+        //vetor auxiliar que guadará os nós a esquerda
+        std::vector<std::pair<Key, Val>> rightVector;
+
+          //verifica se o nó da esquerda está vazio
+        if(p->left){
+           
+         leftVector = inOrder(p->left.get());
+           
+        }
+        //verifica se o nó da direita está vazio
+        if(p->right){
+          
+          rightVector = inOrder(p->right.get());
+      
+        } 
+        
+        //vetor onde se guadará os valores dos vetores da esquerda e direita(vetores nas funções recursivas)
+        std::vector<std::pair<Key, Val>> resultVector{};
+
+
+        //salva o raiz no vetor
+        resultVector.push_back(std::make_pair(p->key, p->val));
+
+
+        for (auto e : leftVector){//percorre o vetor da esquerda e salva no vetor resultVector
+          resultVector.push_back(e);
+        }
+        
+        
+
+        for (auto e : rightVector){//percorre o vetor da direita e salva no vetor resultVector
+          resultVector.push_back(e);
+        }
+
+
+        //retorna o vetor com todos os nós da árvore
+        return resultVector;
+  }
+
+
+  //inserir os elementos da árvore preOrder em vetor pair<Key,Val>
+   static  std::vector<std::pair<Key, Val> > posOrder(const BSTreeNode *p){
+     // std::vector<std::pair<Key, Val> > vetorInOrder;
+        
+        //vetor auxiliar que guadará os nós a esquerda
+        std::vector<std::pair<Key, Val>> leftVector;
+
+        //vetor auxiliar que guadará os nós a esquerda
+        std::vector<std::pair<Key, Val>> rightVector;
+
+          //verifica se o nó da esquerda está vazio
+        if(p->left){
+           
+         leftVector = inOrder(p->left.get());
+           
+        }
+        //verifica se o nó da direita está vazio
+        if(p->right){
+          
+          rightVector = inOrder(p->right.get());
+      
+        } 
+        
+        //vetor onde se guadará os valores dos vetores da esquerda e direita(vetores nas funções recursivas)
+        std::vector<std::pair<Key, Val>> resultVector{};
+
+        for (auto e : leftVector){//percorre o vetor da esquerda e salva no vetor resultVector
+          resultVector.push_back(e);
+        }
+      
+        for (auto e : rightVector){//percorre o vetor da direita e salva no vetor resultVector
+          resultVector.push_back(e);
+        }
+
+        //salva o raiz no vetor
+        resultVector.push_back(std::make_pair(p->key, p->val));
+
+
+        //retorna o vetor com todos os nós da árvore
+        return resultVector;
+  }
+
+
+
+  
   // root node of BSTree
   std::unique_ptr<BSTreeNode> root;
 
@@ -271,4 +427,96 @@ public:
       return false;
     }
   }
-};
+
+  //função na-ordem(guardar no vetor)
+ 
+ 
+  
+
+  //atualizar valor
+  bool update(Key key, Val newval){
+      if(root&&search(key)){
+        BSTreeNode *currentNode = root.get();
+        while (key != currentNode->key){
+        
+       
+        //goes either left or right accordingly
+        if (key < currentNode->key){
+          currentNode = currentNode->left.get();
+        }
+        else if (key > currentNode->key){
+          currentNode = currentNode->right.get();
+        }
+        
+      }
+        currentNode->val = newval;
+        return true;
+      }else{
+          return false;
+      }
+  }
+  
+  //função para auxiliar a função de impressão em ordem
+  void printInOrder(){
+    if (root){
+      imprimir(root.get());
+    }
+  }
+//retorna vetor inOrder
+
+static std::vector<std::pair<Key, Val>> inOrderVetor(const BSTree<Key,Val>& bst){
+  if(bst.root){
+    
+  
+    return inOrder(bst.root.get());
+    
+  }else{
+    return std::vector<std::pair<Key, Val>>{};
+  }
+
+}
+
+
+static std::vector<std::pair<Key, Val>> preOrderVetor(const BSTree<Key,Val>& bst){
+  if(bst.root){
+    
+  
+    return preOrder(bst.root.get());
+    
+  }else{
+    return std::vector<std::pair<Key, Val>>{};
+  }
+
+}
+
+
+static std::vector<std::pair<Key, Val>> posOrderVetor(const BSTree<Key,Val>& bst){
+  if(bst.root){
+    
+  
+    return posOrder(bst.root.get());
+    
+  }else{
+    return std::vector<std::pair<Key, Val>>{};
+  }
+
+}
+
+  void print(){
+    
+    std::vector<std::pair<Key,Val> > teste;
+    
+        inOrder(root.get(), teste);
+    
+        std::cout << "Tamanho Vetor: " << teste.size() <<std::endl;
+
+    for(int i=0; i < teste.size();i++){
+      std::cout << teste[i].first <<" "<< teste[i].second << std::endl;
+    }
+  }
+
+
+  
+ 
+};//fim da classe BStree
+

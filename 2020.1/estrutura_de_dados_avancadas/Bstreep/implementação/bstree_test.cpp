@@ -9,7 +9,7 @@ int main(){
 
   assert(bst.isEmpty());
 
-  bst.insert(2, "huae");
+  bst.insert(2, "hue");
   bst.insert(1, "eita");
   bst.insert(3, "haha");
 
